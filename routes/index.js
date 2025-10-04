@@ -3,6 +3,8 @@ const nodemailer = require('nodemailer');
 var router = express.Router();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+require('dotenv').config();
+
 let sstatus;
 
 /* GET home page. */
