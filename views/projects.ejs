@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects Portfolio</title>
+     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+    --primary: #00a2ff;
+    --secondary: #0d1117;
+    --accent: #00ffc6;
+    --light: #1c1f26;
+    --dark: #e6edf3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0d1117;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+header {
+    background: linear-gradient(135deg, #0d1117, #161b22);
+    color: #fff;
+    text-align: center;
+    padding: 3rem 1rem;
+    position: relative;
+    border-bottom: 4px solid var(--accent);
+    
+}
+
+.back-arrow {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 1.8rem;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.back-arrow:hover {
+    color: var(--accent);
+}
+
+.header-content h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    font-style: italic;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.header-logo {
+    height: 120px;
+    width: 150px;
+    margin-top: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 0.8rem 1.5rem;
+    margin: 0 0.5rem;
+    background: var(--light);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: var(--dark);
+}
+
+.tab-btn.active {
+    background: var(--accent);
+    color: #0d1117;
+}
+
+.tab-btn:hover:not(.active) {
+    background: #2a2f3d;
+    color: var(--accent);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.project-card {
+    background: #161b22;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 255, 200, 0.2);
+}
+
+.project-image {
+    height: 200px;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-imageh {
+    height: 200px;
+}
+
+.project-imageh img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.1);
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+.project-info h3 {
+    margin-bottom: 0.5rem;
+    color:#caff0a;
+}
+
+.project-info p {
+    margin-bottom: 1rem;
+    color: #9aa5b1;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    background: rgba(0, 255, 200, 0.08);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-links a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.demo-btn {
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    color: #fff;
+}
+
+.code-btn {
+    background: var(--light);
+    color: var(--dark);
+}
+
+.project-links a:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.category-content {
+    display: none;
+}
+
+.category-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .tab-btn {
+        margin: 0.3rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+</head>
+<body>
+   <header>
+  <div class="header-container">
+    <a href="/" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
+    <div class="header-content">
+      <h1>My Projects</h1>
+      <p class="tagline">Crafting impactful solutions through code and design</p>
+     <a href="/"><img src="\images\ChatGPT Image Sep 3, 2025, 05_55_06 PM.png" alt="Logo" class="header-logo" ></a>
+    </div>
+  </div>
+</header> 
+    <div class="container">
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="filterProjects('basic')">Basic Projects</button>
+            <button class="tab-btn" onclick="filterProjects('medium')">Medium Projects</button>
+            <button class="tab-btn" onclick="filterProjects('advanced')">Advanced Projects</button>
+        </div>
+        
+        <!-- Basic Projects -->
+        <div id="basic" class="category-content active">
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-imageh">
+                        <img class="hwise" src="\images\Screenshot 2025-08-07 160359.png" alt="Project 1" >
+                    </div>
+                    <div class="project-info">
+                        <h3>TIC TAC TOE </h3>
+                        <p>A gaming logic development dummy project</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/game" class="demo-btn">Live Demo</a>
+                            <a href="https://github.com/AbdulRehman-cell/Tic-tac-toe.git" class="code-btn">View Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-imageh">
+                        <img class="hwise" src="\images\calculator.png" alt="Project 2">
+                    </div>
+                    <div class="project-info">
+                        <h3>CALCULATOR</h3>
+                        <p>A responsive web-based calculator that performs arithmetic operations with DMAS rule support.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                            
+                        </div>
+                        <div class="project-links">
+                            <a href="/calculator" class="demo-btn">Live Demo</a>
+                            <a href="https://github.com/AbdulRehman-cell/Calculator.git" class="code-btn">View Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Medium Projects -->
+        <div id="medium" class="category-content">
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="\images\Screenshot 2025-08-07 161135.png" alt="Project 1">
+                    </div>
+                    <div class="project-info">
+                        <h3>Currency Convertor</h3>
+                        <p>Exchange rate conversion using currency API.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JAVASCRIPT</span>
+                            <span class="tag">API</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/convertor" class="demo-btn">Live Demo</a>
+                            <a href="#" class="code-btn">View Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="\images\Screenshot 2025-08-07 164341.png" alt="Project 2">
+                    </div>
+                    <div class="project-info">
+                        <h3>Weather Application</h3>
+                        <p>A weather app that shows current weather and forecast using a weather API.</p>
+                        <div class="project-tags">
+                            <span class="tag">API Integration</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Bootstrap</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="/weatherapp" class="demo-btn">Live Demo</a>
+                            <a href="#" class="code-btn">View Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Projects -->
+        <div id="advanced" class="category-content">
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="\images\Screenshot 2025-08-29 150539.png" alt="Project 1">
+                    </div>
+                    <div class="project-info">
+                        <h3>Velora – E-Commerce Web Application</h3>
+                        <p>Velora is a full-stack e-commerce platform for a perfume brand, featuring product management and secure order handling. Built with the MERN stack, it showcases responsive design and seamless backend integration.</p>
+                        <div class="project-tags">
+                            <span class="tag">MERN Stack</span>
+                            <span class="tag">EJS</span>
+                            <span class="tag">GITHUB</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://online-perfume-brand-velora.onrender.com/" class="demo-btn">Live Demo</a>
+                            <a href="#" class="code-btn">View Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="/javascripts/script.js"></script>
+    <footer class="portfolio-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h3>About Me</h3>
+        <p>A passionate creative professional dedicated to delivering exceptional work and building meaningful connections.</p>
+      </div>
+      <div class="footer-section links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section contact">
+        <h3>Contact Info</h3>
+        <ul>
+          <li><i class="fas fa-envelope"></i> abdulrehmanishaque32@gmail.com</li>
+          <li><i class="fas fa-phone"></i>+92-300-9547799</li>
+          <li><i class="fas fa-map-marker-alt"></i>Lahore,Pakistan</li>
+        </ul>
+
+    </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/abdul-rehman-ishaque-770aa1375?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/abdulrehmanishaque?igsh=NHBvOTN4ZW5wdndy"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/923009547799"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p>&copy; 2025 Abdul Rehman Ishaq. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+    
+    <script>
+        function filterProjects(category) {
+            // Hide all project categories
+            document.querySelectorAll('.category-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected category
+            document.getElementById(category).classList.add('active');
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
