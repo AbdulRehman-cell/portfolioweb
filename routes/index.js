@@ -2,7 +2,7 @@ var express = require('express');
 const nodemailer = require('nodemailer');
 var router = express.Router();
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
+
 require('dotenv').config();
 
 let sstatus;
@@ -38,7 +38,7 @@ router.get('/weatherapp', function(req, res, next) {
 });
 
 router.post('/contact', async function(req, res) {
-  const { name, email, message } = req.body;
+  const { name, email, mes = req.body;
 
     res.cookie("username", name, { maxAge: 30 * 24 * 60 * 60 * 1000 });
   res.cookie("useremail", email, { maxAge: 30 * 24 * 60 * 60 * 1000 });
