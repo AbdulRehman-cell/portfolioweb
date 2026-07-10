@@ -1,0 +1,26 @@
+# Render platform configuration for Express.js project
+
+services:
+  - type: web
+    name: portfolioweb
+    runtime: docker
+    dockerContext: .
+    dockerFilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      # Add mail and other secrets here or via Render dashboard
+    healthCheckPath: /
+    buildFilter:
+      paths:
+        - Dockerfile
+        - app.js
+        - package.json
+        - package-lock.json
+        - bin/**
+        - public/**
+        - routes/**
+        - views/**
