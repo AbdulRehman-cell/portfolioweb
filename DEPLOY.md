@@ -1,53 +1,42 @@
-# Deploying PortfolioWeb to Render
+```markdown
+# Deployment Guide for Portfolio Web
 
-This guide will help you deploy your Express.js portfolio web app to [Render](https://render.com) using Docker.
+Follow these steps to deploy the Portfolio Web application in under 5 minutes.
 
 ## Prerequisites
+- Ensure you have Docker and Docker Compose installed.
+- Set up a Render account and obtain your API key.
 
-- Create a free account on [Render](https://render.com)
-- Have your repository on GitHub
+## Steps to Deploy
 
-## Steps
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/portfolioweb.git
+   cd portfolioweb
+   ```
 
-### 1. Prepare your environment variables
+2. **Create an Environment File:**
+   Copy the `.env.example` to `.env` and fill in your environment variables.
+   ```bash
+   cp .env.example .env
+   ```
 
-1. Open `.env.example`.
-2. Copy it to `.env` and fill in your SMTP credentials and other necessary values.
+3. **Build and Start the Application:**
+   You can directly use Docker Compose to build and run your application.
+   ```bash
+   docker-compose up --build
+   ```
 
-### 2. Connect Repository to Render
+4. **Access the Application:**
+   Open your browser and navigate to `http://localhost:3000` to view the application.
 
-1. Log into Render.
-2. Click **New** -> **Web Service**.
-3. Select **"Deploy from a repo"** and choose your repository.
-4. Choose **"Docker"** as runtime.
-5. Render will auto-detect your `Dockerfile`.
-6. Set:
-    - **Port**: `3000`
-    - **Environment variables**: Add those from your `.env` (Render's dashboard is the recommended way for secrets)
-    - **Health Check Path**: `/`
-    - **Auto Deploy**: enabled
+5. **Deploy to Render:**
+   Make sure you have your RENDER_API_KEY set in GitHub Secrets, then push to main branch:
+   ```bash
+   git add .
+   git commit -m "Prepare for deployment"
+   git push origin main
+   ```
 
-### 3. Deploy
-
-1. Click **Create Web Service** and Render will build & deploy your app.
-2. On subsequent pushes to `main`, your site will auto-deploy.
-3. Optionally, set up a GitHub Actions secret called `RENDER_API_KEY` and your Render Service ID for auto-deployment (see `.github/workflows/deploy.yml`).
-
-### 4. (Optional) Local development with Docker Compose
-
-```bash
-cp .env.example .env
-docker-compose up --build
+Your application will automatically deploy to Render on the main branch push.
 ```
-Visit [http://localhost:3000](http://localhost:3000)
-
----
-
-## Troubleshooting
-
-- For logs, use Render dashboard or `docker-compose logs app`.
-- If you have SMTP or other APIs, be sure to set those env vars.
-
----
-
-You’re done!

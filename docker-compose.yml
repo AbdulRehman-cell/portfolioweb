@@ -1,22 +1,20 @@
+```yaml
 version: '3.8'
 
 services:
-  app:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
-      # Optionally map local env file in Render Pro plan, otherwise use Render's dashboard for secrets
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
-      timeout: 3s
-      start_period: 10s
-    restart: unless-stopped
-    depends_on: []
-    # Uncomment if you want to use a volume for development
-    # volumes:
-    #   - .:/app
+      timeout: 10s
+      retries: 5
+```

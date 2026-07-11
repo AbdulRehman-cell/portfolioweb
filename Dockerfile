@@ -1,36 +1,23 @@
-# ----------- Stage 1: Build -----------
-FROM node:20.11.1-alpine AS build
+```Dockerfile
+# Stage 1: Build
+FROM node:18.17.0 AS builder
 
+# Set working directory
 WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package.json ./
+COPY package-lock.json ./
 
 # Install dependencies
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
+RUN npm install --production
 
-# Copy the rest of the app
+# Copy source files
 COPY . .
 
-# ----------- Stage 2: Runtime -----------
-FROM node:20.11.1-alpine AS runtime
-
-WORKDIR /app
-
-# Only copy production dependencies and app files
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/app.js ./app.js
-COPY --from=build /app/bin ./bin
-COPY --from=build /app/public ./public
-COPY --from=build /app/routes ./routes
-COPY --from=build /app/views ./views
-COPY --from=build /app/DEPLOY.md ./DEPLOY.md
-COPY --from=build /app/package.json ./package.json
-
-# Healthcheck (port 3000 is typical for Express)
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
-  CMD wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1
-
+# Expose the application port
 EXPOSE 3000
 
-ENV NODE_ENV=production
-
-CMD ["node", "./bin/www"]
+# Start the application
+CMD ["npm", "start"]
+```

@@ -1,12 +1,17 @@
+```yaml
 services:
-  - name: portfolio-web
-    type: web
-    runtime: docker
-    dockerfilePath: Dockerfile
-    buildFilter: "*"
+  - type: web
+    name: portfolio-web
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    healthCheckIntervalSeconds: 30
+    healthCheckTimeoutSeconds: 10
+    healthCheckMaxRetries: 5
     envVars:
       NODE_ENV: production
-    autoDeploy: true
-    plan: free # or 'starter+' for more resources
-    healthCheckPath: /
-    port: 3000
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+```
