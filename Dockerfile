@@ -1,23 +1,41 @@
 ```Dockerfile
-# Stage 1: Build
-FROM node:18.17.0 AS builder
+# Use Node.js official image for the build stage
+FROM node:18.16.0 AS builder
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package.json ./
-COPY package-lock.json ./
+# Copy package.json and package-lock.json to install dependencies
+COPY package.json package-lock.json ./
 
-# Install dependencies
+# Install production dependencies only
 RUN npm install --production
 
-# Copy source files
+# Copy the rest of the application files
 COPY . .
 
-# Expose the application port
+# Build the application if necessary (for example, if using TypeScript)
+# RUN npm run build
+
+# Use a smaller image for the final stage
+FROM node:18.16.0-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy only the necessary files from the builder
+COPY --from=builder /app .
+
+# Set the environment variable for production
+ENV NODE_ENV production
+
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
+# Health check to verify the app is running
+HEALTHCHECK --interval=30s --timeout=5s --start-period=2m --retries=3 \
+  CMD curl -f http://localhost:3000/ || exit 1
+
+# Run the application
 CMD ["npm", "start"]
 ```

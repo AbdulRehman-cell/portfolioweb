@@ -1,17 +1,14 @@
 ```yaml
 services:
   - type: web
-    name: portfolio-web
+    name: portfolioweb
     env: node
-    plan: free
-    buildCommand: npm install
-    startCommand: npm start
-    healthCheckPath: /health
-    healthCheckIntervalSeconds: 30
-    healthCheckTimeoutSeconds: 10
-    healthCheckMaxRetries: 5
-    envVars:
-      NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
-      REDIS_URL: ${REDIS_URL}
+    plan: starter
+    build:
+      env: production
+    routes:
+      - path: /
+    healthCheck:
+      path: /
+      interval: 30000
 ```

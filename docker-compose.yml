@@ -10,11 +10,16 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
-      REDIS_URL: ${REDIS_URL}
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:6.2.7
+    ports:
+      - "6379:6379"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 30s
-      timeout: 10s
-      retries: 5
+      timeout: 5s
+      retries: 3
 ```
