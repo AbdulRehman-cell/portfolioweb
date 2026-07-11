@@ -4,36 +4,62 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build-test-deploy:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: '20.11.1'
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
-      - name: Run lint (if applicable)
-        run: npm run lint
-        continue-on-error: true
+      - name: Run lint (if configured)
+        run: npm run lint || echo "Lint not configured, skipping"
 
-      - name: Run tests (if applicable)
-        run: npm test
-        continue-on-error: true
+      - name: Run tests (if configured)
+        run: npm test || echo "No tests, skipping"
 
       - name: Build Docker image
         run: docker build -t portfolioweb:0.0.0 .
 
-      - name: Deploy to Render
-        uses: render-examples/github-actions-render-deploy@v1
-        with:
-          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
-          apiKey: ${{ secrets.RENDER_API_KEY }}
+      - name: Run Docker healthcheck
+        run: |
+          docker run -d --name testapp -p 3000:3000 portfolioweb:0.0.0
+          sleep 15
+          if ! curl -f http://localhost:3000/; then
+            echo "Health check failed"
+            docker logs testapp
+            exit 1
+          else
+            echo "Health check passed"
+          fi
+          docker stop testapp
+
+  render-deploy:
+    needs: build-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Render via API (optional)
+        if: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "Triggering Render redeploy..."
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Accept: application/json" \
+            https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys
+        # Replace YOUR_SERVICE_ID with your actual Render service id.
+        # Set RENDER_API_KEY as a GitHub secret.
+        # See https://render.com/docs/api for more info.

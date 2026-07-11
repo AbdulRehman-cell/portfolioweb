@@ -1,23 +1,24 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
     image: portfolioweb:0.0.0
+    restart: always
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      # Uncomment and edit to pass environment variables or use .env file
-      # - SMTP_USER=${SMTP_USER}
-      # - SMTP_PASS=${SMTP_PASS}
-    restart: always
+      # Add other env vars in .env or render dashboard
     healthcheck:
-      test: ["CMD", "wget", "--spider", "http://localhost:3000/health"]
+      test: wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1
       interval: 30s
       timeout: 3s
-      retries: 2
+      retries: 3
     depends_on: []
-    # If you add a DB or Redis, declare here
+    # Uncomment below if you need volumes (for secrets, logs etc)
+    # volumes:
+    #   - ./logs:/app/logs
+    #   - ./public:/app/public

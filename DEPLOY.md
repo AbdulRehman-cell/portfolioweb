@@ -1,83 +1,80 @@
-# Deployment Guide: portfolioweb on Render
+# Production Deployment Guide: PortfolioWeb (Express)
 
-Follow these steps to deploy your Express/EJS portfolio app to Render. This process will get your app running securely and production-ready.
-
-## Prerequisites
-
-- [Render](https://render.com) account
-- GitHub repository
-- Any required environment variables (see `.env.example`)
-- Optionally, [Docker](https://docs.docker.com/get-docker/) if running locally
+This guide gets your app running on [Render](https://render.com) with Docker in under 5 minutes.
 
 ---
 
-## 1. Configure Environment Variables
+## 1. Prerequisites
 
-Create and fill in a `.env` file, based on `.env.example`, with your SMTP credentials and any other needed secrets:
+- Create a free [Render.com account](https://dashboard.render.com/signup)
+- (Recommended) Install Docker locally to test your image: https://docs.docker.com/get-docker/
+
+---
+
+## 2. Prepare Environment Variables
+
+1. Copy `.env.example` to `.env`.
+2. Fill in your email SMTP credentials and any required secrets.
+   ```bash
+   cp .env.example .env
+   # Edit .env to set SMTP_HOST, SMTP_USER, SMTP_PASS etc.
+   ```
+
+---
+
+## 3. Deploy on Render
+
+### A. Deploy via Render Dashboard
+
+1. **Log In** to [Render Dashboard](https://dashboard.render.com).
+2. **Create New Web Service**:
+   - Select "Deploy from a repo"
+   - Choose your GitHub repository.
+   - Set "Runtime" to **Docker**.
+   - Render will auto-detect the `Dockerfile` and `render.yaml`.
+3. **Set Environment Variables**:
+   - Add each key from `.env.example` in the "Environment" section.
+4. **Start Deployment**:
+   - Click "Create Web Service"
+   - Done! Render will build & serve your app.
+
+### B. Deploy via CLI (Locally)
+
+You can also test locally with Docker Compose:
 
 ```bash
-cp .env.example .env
-# Edit .env file to set SMTP_USER and SMTP_PASS
+# Build & run locally
+docker-compose up --build
+# App will be live at: http://localhost:3000/
 ```
 
 ---
 
-## 2. Deploy to Render
+## 4. Automated CI Deploy (GitHub Actions)
 
-### Option A: One-click via Render web dashboard
-
-1. **Create a New Web Service** on Render.
-2. **Connect your GitHub repo**.
-3. **Choose "Node" runtime** and set:
-   - **Build Command:** `npm ci`
-   - **Start Command:** `npm start`
-   - **Environment Variables:** Copy from `.env.example` as needed.
-4. **Set Health Check Path:** `/health`
-5. Click **"Create"** — Render will handle the deployment.
+Included `.github/workflows/deploy.yml` automatically deploys your app whenever you push to `main`.
+- It builds and checks your Docker image.
+- To enable Render deploys, add your Render API key as a secret in GitHub (see comments inside workflow).
 
 ---
 
-### Option B: Deploy via GitHub Actions (CI/CD)
+## 5. Health Checks
 
-1. **Set Render API key/secrets**:
-   - On Render, create a new web service and note your `serviceId`.
-   - In your GitHub repo settings, add secrets:
-     - `RENDER_API_KEY`: Your Render API key.
-     - `RENDER_SERVICE_ID`: Your service ID.
-2. **Push to main branch**:
-   ```bash
-   git push origin main
-   ```
-3. GitHub Actions will build, test, and deploy your app automatically!
+- Render will check `/` for health (can be changed in `render.yaml`).
+- Docker has a health check for port 3000.
 
 ---
 
-## 3. Optional: Run Locally with Docker
+## 6. Troubleshooting
 
-1. Build and run the container:
-   ```bash
-   docker compose up --build
-   ```
-2. Visit [http://localhost:3000](http://localhost:3000)
+- Check Render logs for build/runtime errors.
+- Make sure you add all secrets/environment variables exactly.
+- Use `docker-compose up --build` locally to debug issues before pushing.
 
 ---
 
-## Health Checks
+## Quick Start Summary
 
-- Your app should expose `/health` endpoint for Render health checks.
-- Add in `app.js` or `routes/index.js`:
-    ```js
-    // In app.js
-    app.get('/health', (req, res) => res.status(200).send('OK'));
-    ```
-
----
-
-## Troubleshooting
-
-- Check logs in Render dashboard.
-- Verify your environment variables are correct.
-
----
-
-You’re done! 🚀
+1. Copy `.env.example` to `.env` and fill in secrets.
+2. Push your repo to GitHub.
+3. Connect to Render and deploy.

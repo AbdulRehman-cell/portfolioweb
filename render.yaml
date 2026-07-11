@@ -1,17 +1,21 @@
+# Render deployment config
 services:
   - type: web
     name: portfolioweb
-    runtime: node
-    plan: free
-    buildCommand: "npm ci"
-    startCommand: "npm start"
+    runtime: docker
+    dockerfilePath: Dockerfile
     envVars:
       - key: NODE_ENV
         value: production
-      # Add other env vars here (edit for SMTP or custom config)
+      # Add more env vars below
+      # - key: SMTP_USER
+      #   value: your-smtp-user
+    # Health check endpoint
+    healthCheckPath: /
+    plan: free
+    region: oregon
     autoDeploy: true
-    healthCheckPath: /health
-    env: 
-      # Set render environment variables here (example):
-      # SMTP_USER: your-smtp-user
-      # SMTP_PASS: your-smtp-pass
+    buildCommand: ""
+    startCommand: node ./bin/www
+    ports:
+      - 3000
