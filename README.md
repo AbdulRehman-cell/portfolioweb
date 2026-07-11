@@ -1,25 +1,25 @@
 # PortfolioWeb
 
-A Node.js Express portfolio web app for production deployment.
+Production-ready Node/Express portfolio site with Render deployment.
 
-## Local Development
+## Features
 
-```bash
-npm ci
-npm start
-```
+- Dockerized (multi-stage, small image)
+- Healthcheck endpoint for Render
+- Easy .env example
+- GitHub Actions deploy pipeline
+- Render and Vercel config included
+
+## Quickstart
+
+1. `cp .env.example .env` — fill blanks
+2. `docker-compose up --build` — local test
+3. Deploy via Render (see DEPLOY.md)
 
 ## Deployment
 
-- See [DEPLOY.md](DEPLOY.md) for Render instructions
-- Use Docker or docker-compose for containerized dev
-
-## Environment
-
-- Copy `.env.example` to `.env`, fill in required variables.
+See DEPLOY.md for step-by-step guide.
 
 ## Health Check
 
-- App responds to HTTP `/` and provides health on port `3000`.
-
----
+A `/health` endpoint returns `{ status: 'ok' }` for platform reliability.

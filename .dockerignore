@@ -1,14 +1,7 @@
 node_modules
 npm-debug.log
-Dockerfile
-docker-compose.yml
-.github/
 .git
-.gitignore
+coverage
+public/uploads
 .env
-.env.*
-README.md
-DEPLOY.md
-vercel.json
-render.yaml
-railway.toml
+.DS_Store

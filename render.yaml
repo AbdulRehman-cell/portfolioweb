@@ -1,18 +1,15 @@
 services:
   - type: web
     name: portfolioweb
-    env: docker
-    dockerfilePath: Dockerfile
+    env: node
+    buildCommand: npm ci --production
+    startCommand: npm start
     autoDeploy: true
-    healthCheck:
-      type: http
-      endpoint: /health
-    plan: free
     envVars:
       - key: NODE_ENV
         value: production
-      # Add your own additional keys below
-      # - key: EMAIL_USER
-      #   value: your_username
-      # - key: EMAIL_PASS
-      #   value: your_password
+      # Add your custom env vars below
+      # - key: PORT
+      #   value: 3000
+    healthCheckPath: /health
+    plan: free

@@ -1,34 +1,34 @@
-# Multi-stage Dockerfile for Node.js Express App
-
 # Stage 1: Build dependencies
-FROM node:20.10.0-alpine AS build
+FROM node:18.20.2-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Install production dependencies to package-lock.json's hash
+COPY package*.json ./
+RUN npm ci --production
 
-# Only install production dependencies
-RUN npm ci --only=production
-
-# Stage 2: Copy, setup, finalize small runtime image
-FROM node:20.10.0-alpine
-
-WORKDIR /app
-
-# Copy dependencies from build step
-COPY --from=build /app/node_modules ./node_modules
-
-# Copy app files
+# Copy application source
 COPY . .
 
-# Expose the port the app listens on (default 3000)
+# Stage 2: Minimal final image
+FROM node:18.20.2-alpine AS app
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Copy resolved node_modules from builder
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy all application code (except files ignored by .dockerignore)
+COPY . .
+
+# Expose port for Express (default is 3000, can be overridden)
 EXPOSE 3000
 
-# Health check using curl (alpine install)
-RUN apk add --no-cache curl
+# Healthcheck for Render (optional, improves reliability)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --quiet --spider http://localhost:3000/health || exit 1
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl --fail http://localhost:3000/health || exit 1
-
-# Start the app
+# Start the application using www binary (entry point from bin/www)
 CMD ["npm", "start"]

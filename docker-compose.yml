@@ -1,21 +1,23 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: portfolioweb
+    image: portfolioweb:0.0.0
     ports:
       - "3000:3000"
-    env_file:
-      - .env
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
+    environment:
+      - NODE_ENV=production
+      # Additional envs via .env (use docker-compose --env-file .env)
     restart: always
-    # You can add volumes if needed
-    # volumes:
-    #   - .:/app
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # If you need database or redis, add them here. By default, just app.
+
+# For local development, run:
+# docker-compose up --build
