@@ -1,7 +1,10 @@
 node_modules
 npm-debug.log
-.git
-coverage
-public/uploads
 .env
-.DS_Store
+.git
+.gitignore
+.github
+*.md
+test
+vercel.json
+railway.toml

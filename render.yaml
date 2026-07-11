@@ -1,15 +1,12 @@
 services:
-  - type: web
-    name: portfolioweb
-    env: node
-    buildCommand: npm ci --production
-    startCommand: npm start
-    autoDeploy: true
+  - name: portfolio-web
+    type: web
+    runtime: docker
+    dockerfilePath: Dockerfile
+    buildFilter: "*"
     envVars:
-      - key: NODE_ENV
-        value: production
-      # Add your custom env vars below
-      # - key: PORT
-      #   value: 3000
-    healthCheckPath: /health
-    plan: free
+      NODE_ENV: production
+    autoDeploy: true
+    plan: free # or 'starter+' for more resources
+    healthCheckPath: /
+    port: 3000

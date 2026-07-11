@@ -1,68 +1,53 @@
 # Deploying PortfolioWeb to Render
 
-Follow these steps to deploy your **portfolio web app** to Render in under 5 minutes.
+This guide will help you deploy your Express.js portfolio web app to [Render](https://render.com) using Docker.
 
----
+## Prerequisites
 
-## 1. Prerequisites
+- Create a free account on [Render](https://render.com)
+- Have your repository on GitHub
 
-- Signup at [https://render.com](https://render.com)
-- Fork or clone your repository locally
-- Install [Docker](https://www.docker.com/) (optional for testing)
-- Obtain any necessary secrets (email SMTP credentials, cookie secret)
+## Steps
 
----
+### 1. Prepare your environment variables
 
-## 2. Environment Setup
+1. Open `.env.example`.
+2. Copy it to `.env` and fill in your SMTP credentials and other necessary values.
 
-1. **Add a `.env` file**:
+### 2. Connect Repository to Render
 
-   ```
-   cp .env.example .env
-   ```
+1. Log into Render.
+2. Click **New** -> **Web Service**.
+3. Select **"Deploy from a repo"** and choose your repository.
+4. Choose **"Docker"** as runtime.
+5. Render will auto-detect your `Dockerfile`.
+6. Set:
+    - **Port**: `3000`
+    - **Environment variables**: Add those from your `.env` (Render's dashboard is the recommended way for secrets)
+    - **Health Check Path**: `/`
+    - **Auto Deploy**: enabled
 
-   Fill in your secrets in `.env`:
-   - COOKIE_SECRET
-   - SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+### 3. Deploy
 
-2. **Add those environment variables to your Render service**:
-   - On Render, go to your web service -> "Environment" -> "Environment Variables", add all from `.env`.
+1. Click **Create Web Service** and Render will build & deploy your app.
+2. On subsequent pushes to `main`, your site will auto-deploy.
+3. Optionally, set up a GitHub Actions secret called `RENDER_API_KEY` and your Render Service ID for auto-deployment (see `.github/workflows/deploy.yml`).
 
----
+### 4. (Optional) Local development with Docker Compose
 
-## 3. Deploy via Render
-
-1. **Create a new Web Service**
-   - Select "Node" environment
-   - Connect this GitHub repo
-   - It will auto-detect the `render.yaml` and build with `npm ci --production`
-   - Health checks will use `/health`
-
-2. **Push your changes**
-   - Render auto-deploys from your main/master branch.
-
-3. **Optional: Local Docker Compose Test**
-   ```
-   docker-compose up --build
-   ```
-   Access at http://localhost:3000
-
----
-
-## 4. Verify Deployment
-
-- Visit your Render-provided URL.
-- Check that `/health` returns status 200.
-- Confirm email functionality (SMTP configured).
+```bash
+cp .env.example .env
+docker-compose up --build
+```
+Visit [http://localhost:3000](http://localhost:3000)
 
 ---
 
 ## Troubleshooting
 
-- If build fails: check Node version is 18.x, app listens to PORT from env.
-- Health checks: ensure `/health` route exists and returns 200 (add to app).
-- Check logs in Render dashboard for errors.
+- For logs, use Render dashboard or `docker-compose logs app`.
+- If you have SMTP or other APIs, be sure to set those env vars.
 
 ---
 
-**You’re now production-ready!**
+You’re done!

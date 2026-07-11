@@ -1,25 +1,19 @@
 # PortfolioWeb
 
-Production-ready Node/Express portfolio site with Render deployment.
+PortfolioWeb is a simple Express.js-based portfolio site.
+
+## Setup
+
+1. Copy `.env.example` to `.env`.
+2. Fill out your credentials.
+3. Use `npm start` for local development, or see `DEPLOY.md` for deployment.
 
 ## Features
 
-- Dockerized (multi-stage, small image)
-- Healthcheck endpoint for Render
-- Easy .env example
-- GitHub Actions deploy pipeline
-- Render and Vercel config included
-
-## Quickstart
-
-1. `cp .env.example .env` — fill blanks
-2. `docker-compose up --build` — local test
-3. Deploy via Render (see DEPLOY.md)
+- Express.js
+- EJS templating
+- Email via SMTP
 
 ## Deployment
 
-See DEPLOY.md for step-by-step guide.
-
-## Health Check
-
-A `/health` endpoint returns `{ status: 'ok' }` for platform reliability.
+See [DEPLOY.md](DEPLOY.md).
