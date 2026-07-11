@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: portfolioweb
+    runtime: node
+    plan: free
+    buildCommand: "npm ci"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Add other env vars here (edit for SMTP or custom config)
+    autoDeploy: true
+    healthCheckPath: /health
+    env: 
+      # Set render environment variables here (example):
+      # SMTP_USER: your-smtp-user
+      # SMTP_PASS: your-smtp-pass

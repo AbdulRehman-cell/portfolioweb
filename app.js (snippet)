@@ -1,0 +1,2 @@
+// (add this snippet to your app.js for Render healthcheck!)
+app.get('/health', (req, res) => res.status(200).send('OK'));
