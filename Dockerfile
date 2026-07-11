@@ -1,33 +1,31 @@
-# Multi-stage Dockerfile for a secure, production-grade Node.js Express app
+# Multi-stage build for a small, secure production image
 
-# === Build Stage ===
-FROM node:20.11.1-alpine AS builder
+# Stage 1: Build
+FROM node:18.20.2-alpine AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies (node_modules in /app)
+RUN npm ci --only=production
+
+# Stage 2: Runtime
+FROM node:18.20.2-alpine
 
 WORKDIR /app
 
-# Install only production dependencies at this layer for smallest image
-COPY package.json package-lock.json ./
-RUN npm ci --production
-
-# Copy app source (exclude test/dev files in .dockerignore)
+# Copy only needed files from builder and source
+COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 
-# === Runtime Stage ===
-FROM node:20.11.1-alpine
-
-WORKDIR /app
-
-# Copy dependencies and app from builder
-COPY --from=builder /app /app
-
-# Set environment variable for production
-ENV NODE_ENV=production
-
-# Expose port (as per Express defaults)
+# Expose port (Render expects 3000 for web services)
 EXPOSE 3000
 
-# Healthcheck to ensure container is running
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s CMD wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1
+# Healthcheck: GET /
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=2 CMD wget --no-verbose --spider http://localhost:3000/ || exit 1
 
-# Start the app
-CMD ["node", "./bin/www"]
+# Start application
+CMD ["npm", "start"]

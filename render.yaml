@@ -1,21 +1,14 @@
-# Render deployment config
+# Render deployment definition for Express app
 services:
   - type: web
     name: portfolioweb
-    runtime: docker
+    env: docker
     dockerfilePath: Dockerfile
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
-      # Add more env vars below
-      # - key: SMTP_USER
-      #   value: your-smtp-user
-    # Health check endpoint
+      # Add your secrets/environment variables here or in Render dashboard
     healthCheckPath: /
-    plan: free
-    region: oregon
-    autoDeploy: true
-    buildCommand: ""
-    startCommand: node ./bin/www
-    ports:
-      - 3000
+    plan: starter
+    # Exposes port 3000 by default

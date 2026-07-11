@@ -1,80 +1,74 @@
-# Production Deployment Guide: PortfolioWeb (Express)
+# Deploy your PortfolioWeb to Render
 
-This guide gets your app running on [Render](https://render.com) with Docker in under 5 minutes.
+Follow these steps to launch your Express.js website on Render in under 5 minutes.
 
 ---
 
 ## 1. Prerequisites
 
-- Create a free [Render.com account](https://dashboard.render.com/signup)
-- (Recommended) Install Docker locally to test your image: https://docs.docker.com/get-docker/
+- [ ] Sign up at [render.com](https://render.com)
+- [ ] Ensure your code is pushed to GitHub
 
 ---
 
-## 2. Prepare Environment Variables
+## 2. Configure Environment Variables
 
-1. Copy `.env.example` to `.env`.
-2. Fill in your email SMTP credentials and any required secrets.
+1. Copy `.env.example` to `.env` and fill in the appropriate values:
+
    ```bash
    cp .env.example .env
-   # Edit .env to set SMTP_HOST, SMTP_USER, SMTP_PASS etc.
+   # Edit .env and fill in your SMTP/SESSION secrets etc.
    ```
+
+2. On Render, set these environment variables in the dashboard for your Web Service, or (optionally) in the `render.yaml`.
 
 ---
 
-## 3. Deploy on Render
+## 3. Deploy with Render
 
-### A. Deploy via Render Dashboard
+### Automatic Deployment
 
-1. **Log In** to [Render Dashboard](https://dashboard.render.com).
-2. **Create New Web Service**:
-   - Select "Deploy from a repo"
-   - Choose your GitHub repository.
-   - Set "Runtime" to **Docker**.
-   - Render will auto-detect the `Dockerfile` and `render.yaml`.
-3. **Set Environment Variables**:
-   - Add each key from `.env.example` in the "Environment" section.
-4. **Start Deployment**:
-   - Click "Create Web Service"
-   - Done! Render will build & serve your app.
+- Push your code to your repository (on the `main` branch).
+- Render will auto-deploy based on your `render.yaml`.
 
-### B. Deploy via CLI (Locally)
+### Manual Steps
 
-You can also test locally with Docker Compose:
+1. Log in to Render.
+2. Click "New Web Service", import your repo, and select "Docker" as the environment.
+3. Render auto-detects `Dockerfile`, uses port 3000, and sets up healthchecks.
+
+### Optional Local Deploy/Test
 
 ```bash
-# Build & run locally
+# Build and run locally
 docker-compose up --build
-# App will be live at: http://localhost:3000/
+
+# Or directly:
+docker build -t portfolioweb:0.0.0 .
+docker run --rm --env-file .env -p 3000:3000 portfolioweb:0.0.0
 ```
 
 ---
 
-## 4. Automated CI Deploy (GitHub Actions)
+## 4. CI/CD via GitHub Actions
 
-Included `.github/workflows/deploy.yml` automatically deploys your app whenever you push to `main`.
-- It builds and checks your Docker image.
-- To enable Render deploys, add your Render API key as a secret in GitHub (see comments inside workflow).
+Pushing to `main` automatically triggers Render deployment. Check `.github/workflows/deploy.yml` for details.
 
 ---
 
-## 5. Health Checks
+## 5. Healthchecks
 
-- Render will check `/` for health (can be changed in `render.yaml`).
-- Docker has a health check for port 3000.
-
----
-
-## 6. Troubleshooting
-
-- Check Render logs for build/runtime errors.
-- Make sure you add all secrets/environment variables exactly.
-- Use `docker-compose up --build` locally to debug issues before pushing.
+- Render checks `/` for health.
+- `docker-compose` and `Dockerfile` include healthchecks.
 
 ---
 
-## Quick Start Summary
+## Troubleshooting
 
-1. Copy `.env.example` to `.env` and fill in secrets.
-2. Push your repo to GitHub.
-3. Connect to Render and deploy.
+- If deployment fails, see Render's service logs.
+- Check `.env` values for correctness (especially email/SMTP).
+- Make sure port is set to `3000`.
+
+---
+
+## That's it! Your app is live.
