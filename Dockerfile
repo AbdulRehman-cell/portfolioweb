@@ -1,40 +1,34 @@
-# ----------- Multi-stage Dockerfile for Express.js Portfolio Web -----------
+# Multi-stage Dockerfile for Node.js Express App
 
 # Stage 1: Build dependencies
-FROM node:20.11.1-alpine AS builder
+FROM node:20.10.0-alpine AS build
 
 WORKDIR /app
 
-# Only install package.json/package-lock.json dependencies
 COPY package.json package-lock.json ./
+
+# Only install production dependencies
 RUN npm ci --only=production
 
-# Stage 2: Copy source code and install only prod deps
-FROM node:20.11.1-alpine
+# Stage 2: Copy, setup, finalize small runtime image
+FROM node:20.10.0-alpine
 
 WORKDIR /app
 
-# Copy dependency tree from builder
-COPY --from=builder /app/node_modules ./node_modules
+# Copy dependencies from build step
+COPY --from=build /app/node_modules ./node_modules
 
-# Copy source code
-COPY app.js ./app.js
-COPY bin ./bin
-COPY public ./public
-COPY routes ./routes
-COPY views ./views
-COPY package.json ./package.json
+# Copy app files
+COPY . .
 
-# Render runs as non-root
-RUN addgroup -g 1001 appgroup \
-  && adduser -D -u 1001 -G appgroup appuser
-
-USER appuser
-
+# Expose the port the app listens on (default 3000)
 EXPOSE 3000
 
-# HEALTHCHECK for production readiness (checks if Express responds)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --spider http://localhost:3000 || exit 1
+# Health check using curl (alpine install)
+RUN apk add --no-cache curl
 
-CMD ["node", "./bin/www"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD curl --fail http://localhost:3000/health || exit 1
+
+# Start the app
+CMD ["npm", "start"]

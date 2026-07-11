@@ -1,24 +1,21 @@
-version: "3.8"
+version: '3.8'
+
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    image: portfolioweb:v0.0.0
     container_name: portfolioweb
-    restart: always
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      # optionally populate these from .env or Render dashboard
-      - PORT=3000
-      # Add any custom env vars needed below, e.g. MAIL_HOST, MAIL_USER, MAIL_PASS
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:3000"]
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/health"]
       interval: 30s
-      timeout: 5s
+      timeout: 3s
       retries: 3
-      start_period: 5s
-
-# No DB or Redis services detected in package.json
+    restart: always
+    # You can add volumes if needed
+    # volumes:
+    #   - .:/app

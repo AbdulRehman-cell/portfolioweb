@@ -1,10 +1,14 @@
 node_modules
 npm-debug.log
 Dockerfile
-.dockerignore
+docker-compose.yml
+.github/
 .git
 .gitignore
-README.md
-package-lock.json
 .env
 .env.*
+README.md
+DEPLOY.md
+vercel.json
+render.yaml
+railway.toml
