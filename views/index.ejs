@@ -3,9 +3,211 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600|Roboto:400,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/10b9c3895a.js" crossorigin="anonymous"></script>
   </head>
-  <body>
-    <h1>PortfolioWeb Home</h1>
-    <p>Welcome to your new deployment-ready portfolio!</p>
+  <body style="background: var(--dark-bg); color: var(--text-light);">
+    <!-- Navbar -->
+    <nav>
+      <div class="navbar">
+        <span class="nav-logo">
+          <img src="/images/calculator.png" alt="Logo" style="height:52px;border-radius:8px;">
+        </span>
+        <ul class="menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <span class="media-icons">
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:abdulrehman@example.com"><i class="fas fa-envelope"></i></a>
+        </span>
+      </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section class="home" id="home">
+      <div class="home-content">
+        <div class="profile-img">
+          <img src="/images/101124.PR_.Toward-Effective1.webp" alt="Abdul Rehman Profile" />
+        </div>
+        <div class="text-one">Hi, I'm</div>
+        <div class="text-two">Abdul Rehman</div>
+        <div class="text-three">Software Engineer | Full Stack Developer | Cloud Enthusiast</div>
+        <div class="button">
+          <a class="conn" href="#contact">Connect with Me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section-card" id="about">
+      <div class="content">
+        <div class="about-details">
+          <div class="left">
+            <img src="/images/Screenshot 2025-08-07 160359.png" alt="About Abdul Rehman">
+          </div>
+          <div class="right">
+            <div class="topic">About Me</div>
+            <p>
+              Driven by curiosity and a passion for elegant solutions.<br>
+              I specialize in building scalable web applications and relentless automation.<br>
+              With experience in Node.js, React, Docker, CI/CD, and cloud deployments, I transform ideas into robust products.<br>
+              Let’s build something extraordinary together!
+            </p>
+            <div class="button">
+              <a class="conn" href="/docs/Abdul_Rehman_Ishaque_CV.docx" target="_blank">Download CV</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <!-- Skills Section -->
+    <section class="skills section-card" id="skills">
+      <div class="content">
+        <div class="topic" style="font-size:28px;color:var(--secondary);margin-bottom:20px;">Tech Skills</div>
+        <div class="skills-details">
+          <div class="boxes">
+            <div class="box">
+              <img class="icon" src="/images/weather.png" alt="Node.js">
+              <div class="topic">Node.js</div>
+            </div>
+            <div class="box">
+              <img class="icon" src="/images/calculator.png" alt="React.js">
+              <div class="topic">React.js</div>
+            </div>
+            <div class="box">
+              <img class="icon" src="/images/Screenshot 2025-10-12 174806.png" alt="Docker">
+              <div class="topic">Docker</div>
+            </div>
+            <div class="box">
+              <img class="icon" src="/images/Screenshot 2025-08-29 150539.png" alt="CI/CD">
+              <div class="topic">CI/CD</div>
+            </div>
+            <div class="box">
+              <img class="icon" src="/images/Screenshot 2025-09-12 002631.png" alt="Cloud">
+              <div class="topic">Cloud/DevOps</div>
+            </div>
+            <div class="box">
+              <img class="icon" src="/images/Screenshot 2025-08-07 161135.png" alt="Python">
+              <div class="topic">Python</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <!-- Services Section -->
+    <section class="services section-card" id="services">
+      <div class="content">
+        <div class="topic" style="font-size:28px;color:var(--highlight);margin-bottom:18px;">Services</div>
+        <div class="boxes">
+          <div class="box">
+            <div class="icon"><i class="fas fa-code"></i></div>
+            <div class="topic">Web Application Development</div>
+            <p>Custom apps with modern stacks. From MVPs to production-grade systems.</p>
+          </div>
+          <div class="box">
+            <div class="icon"><i class="fas fa-cloud"></i></div>
+            <div class="topic">Cloud Infrastructure</div>
+            <p>Deploy, scale, and automate using AWS, Azure, or GCP.</p>
+          </div>
+          <div class="box">
+            <div class="icon"><i class="fas fa-cogs"></i></div>
+            <div class="topic">DevOps & CI/CD</div>
+            <p>Rapid delivery pipelines and seamless integrations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <!-- Projects Section -->
+    <section class="projects section-card" id="projects">
+      <div class="content">
+        <div class="topic" style="font-size:28px;color:var(--teal);margin-bottom:18px;">Featured Projects</div>
+        <div class="boxes">
+          <div class="box">
+            <img style="width:100%;max-width:370px;border-radius:8px;" src="/images/ChatGPT Image Aug 30, 2025, 07_50_40 PM.png" alt="Project Demo">
+            <div class="topic">AI Chatbot Platform</div>
+            <p>Conversational AI platform leveraging NLP and real-time integrations.</p>
+            <a class="view" href="#">View Code</a>
+          </div>
+          <div class="box">
+            <img style="width:100%;max-width:370px;border-radius:8px;" src="/images/Screenshot 2025-08-07 164341.png" alt="Project Demo">
+            <div class="topic">Smart Weather Dashboard</div>
+            <p>Cloud-based weather insights with beautiful, responsive UI.</p>
+            <a class="view" href="#">View Code</a>
+          </div>
+          <div class="box">
+            <img style="width:100%;max-width:370px;border-radius:8px;" src="/images/Screenshot 2025-08-07 160359.png" alt="Project Demo">
+            <div class="topic">Automation Toolkit</div>
+            <p>Automate workflows and processes with customizable modules.</p>
+            <a class="view" href="#">View Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <!-- Contact Section -->
+    <section class="contact section-card" id="contact">
+      <div class="content">
+        <div class="topic" style="font-size:28px;color:var(--highlight);margin-bottom:18px;">Let's Connect</div>
+        <form class="contact-form">
+          <h2>Contact Me</h2>
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+          <textarea rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <!-- Footer -->
+    <footer class="portfolio-footer">
+      <div class="footer-container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Abdul Rehman</h3>
+            <ul>
+              <li><i class="fas fa-envelope"></i> abdulrehman@example.com</li>
+              <li><i class="fas fa-map-marker-alt"></i> Pakistan</li>
+            </ul>
+            <div class="social-icons">
+              <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+              <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h3>Links</h3>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <%= new Date().getFullYear() %> Abdul Rehman | Portfolio. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <div class="scroll-button">
+      <a href="#home"><i class="fas fa-arrow-up"></i></a>
+    </div>
   </body>
 </html>
