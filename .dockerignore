@@ -1,9 +1,5 @@
 node_modules
 npm-debug.log
-.DS_Store
-.env
-*.md
-test/
-.git
-.gitignore
-.github/
+Dockerfile
+docker-compose.yml
+**/.*  # Ignore hidden files and directories

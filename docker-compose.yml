@@ -1,19 +1,15 @@
 version: '3.8'
 services:
-  app:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
-    image: portfolioweb:0.0.0
     ports:
       - "3000:3000"
-    env_file:
-      - .env
-    restart: unless-stopped
+    environment:
+      NODE_ENV: production
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
-      timeout: 5s
-      retries: 2
-    depends_on: []
-    # If you add redis/db, put them here
+      timeout: 10s
+      retries: 3
