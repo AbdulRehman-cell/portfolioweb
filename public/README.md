@@ -1,0 +1,1 @@
+This folder serves static assets (CSS, images, JS).

@@ -1,0 +1,10 @@
+services:
+  web:
+    type: web
+    name: portfolioweb
+    env: node
+    region: oregon
+    plan: standard
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
